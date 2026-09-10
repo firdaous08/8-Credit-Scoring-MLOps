@@ -1,0 +1,25 @@
+# Environnements virtuels
+.venv/
+env/
+venv/
+ENV/
+
+# Python et IDE
+__pycache__/
+*.pyc
+.vscode/
+.idea/
+
+# Base de données et logs MLflow
+*.db
+mlruns/
+mlflow.db
+
+# Données (Très important : pas de lourds fichiers CSV sur GitHub)
+data/
+*.csv
+*.xlsx
+
+# Fichiers graphiques ou exports temporaires générés localement
+*.png
+*.jpg
