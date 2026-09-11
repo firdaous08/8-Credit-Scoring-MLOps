@@ -27,7 +27,7 @@ class ClientData(BaseModel):
         # Exemple de vérification de valeurs aberrantes critiques exigées par l'école
         for key, val in v.items():
             if not isinstance(val, (int, float, np.number)):
-                raise TypeError(f"La variable '{key}' doit être un nombre, type reçu invalide.")
+                raise ValueError(f"La variable '{key}' doit être un nombre, type reçu invalide.")
             
             # Exemple de contrôle de plage (ex: l'âge ou un montant ne doit pas être négatif si applicable)
             if "DAYS_BIRTH" in key and val > 0:

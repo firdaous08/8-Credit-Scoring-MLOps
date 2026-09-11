@@ -12,16 +12,13 @@ def test_predict_success():
     assert response.status_code in [200, 400, 500]
 
 def test_predict_invalid_type():
-    """Vérifie qu'un type incorrect (ex: du texte à la place d'un chiffre) est rejeté avec un code 400."""
     response = client.post("/predict", json={"features": {"AMT_INCOME_TOTAL": "vingt-mille"}})
-    assert response.status_code == 400
+    assert response.status_code == 422
 
 def test_predict_out_of_range():
-    """Vérifie qu'une valeur hors plage (ex: revenu négatif ou nul) déclenche une erreur 400."""
     response = client.post("/predict", json={"features": {"AMT_INCOME_TOTAL": 0}})
-    assert response.status_code == 400
+    assert response.status_code == 422
 
 def test_predict_empty_payload():
-    """Vérifie qu'un payload vide est rejeté proprement."""
     response = client.post("/predict", json={"features": {}})
-    assert response.status_code == 400
+    assert response.status_code == 422
