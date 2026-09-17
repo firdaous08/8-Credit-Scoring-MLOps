@@ -3,22 +3,39 @@ from app.main_api import app
 
 client = TestClient(app)
 
+def test_read_root():
+    """Vérifie que l'API répond correctement à la racine."""
+    response = client.get("/")
+    assert response.status_code == 200
+    assert "message" in response.json()
+
 def test_predict_success():
-    """Vérifie qu'un dictionnaire valide passe correctement."""
-    # Mettez une vraie feature valide de votre modèle pour tester
-    response = client.post("/predict", json={"features": {"AMT_INCOME_TOTAL": 150000.0, "AMT_CREDIT": 400000.0}})
-    # Selon vos features exactes, l'API renverra 200 ou une erreur si la feature n'est pas reconnue, 
-    # adaptez le test avec les colonnes de votre dataset.
-    assert response.status_code in [200, 400, 500]
+    """Vérifie qu'un dictionnaire valide passe correctement (Correction Erreur 422)."""
+    payload = {
+        "age": 35,
+        "is_female": 1,
+        "AMT_INCOME_TOTAL": 150000.0,
+        "AMT_CREDIT": 400000.0,
+        "EXT_SOURCE_2": 0.7,
+        "EXT_SOURCE_3": 0.6
+    }
+    response = client.post("/predict", json=payload)
+    
+    assert response.status_code == 200
+    assert "decision" in response.json()
+    assert "probability_default" in response.json()
 
-def test_predict_invalid_type():
-    response = client.post("/predict", json={"features": {"AMT_INCOME_TOTAL": "vingt-mille"}})
-    assert response.status_code == 422
-
-def test_predict_out_of_range():
-    response = client.post("/predict", json={"features": {"AMT_INCOME_TOTAL": 0}})
-    assert response.status_code == 422
-
-def test_predict_empty_payload():
-    response = client.post("/predict", json={"features": {}})
+def test_predict_invalid_income():
+    """Vérifie que la validation Pydantic rejette un revenu négatif."""
+    payload = {
+        "age": 45,
+        "is_female": 0,
+        "AMT_INCOME_TOTAL": -5000.0, # Revenu invalide
+        "AMT_CREDIT": 4000000.0,
+        "EXT_SOURCE_2": 0.1,
+        "EXT_SOURCE_3": 0.2
+    }
+    response = client.post("/predict", json=payload)
+    
+    # Doit retourner 422 Unprocessable Content
     assert response.status_code == 422

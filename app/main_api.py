@@ -63,17 +63,17 @@ async def log_requests_and_performance(request: Request, call_next):
         "request_payload": body_dict
     }
     
-    # Enregistre le log au format JSON dans api_logs.jsonl via le middleware
     logging.info(json.dumps(log_data))
     return response
 
+# === CORRECTION PYDANTIC V2 : Utilisation de json_schema_extra ===
 class ClientData(BaseModel):
-    age: int = Field(..., description="Âge du client en années", example=35)
-    is_female: int = Field(..., description="Genre (1 pour Femme, 0 pour Homme)", example=1)
-    AMT_INCOME_TOTAL: float = Field(..., description="Revenu total du client", example=120000.0)
-    AMT_CREDIT: float = Field(..., description="Montant du crédit demandé", example=150000.0)
-    EXT_SOURCE_2: float = Field(0.5, description="Score externe 2 (0 à 1)", example=0.7)
-    EXT_SOURCE_3: float = Field(0.5, description="Score externe 3 (0 à 1)", example=0.6)
+    age: int = Field(..., description="Âge du client en années", json_schema_extra={"example": 35})
+    is_female: int = Field(..., description="Genre (1 pour Femme, 0 pour Homme)", json_schema_extra={"example": 1})
+    AMT_INCOME_TOTAL: float = Field(..., description="Revenu total du client", json_schema_extra={"example": 120000.0})
+    AMT_CREDIT: float = Field(..., description="Montant du crédit demandé", json_schema_extra={"example": 150000.0})
+    EXT_SOURCE_2: float = Field(0.5, description="Score externe 2 (0 à 1)", json_schema_extra={"example": 0.7})
+    EXT_SOURCE_3: float = Field(0.5, description="Score externe 3 (0 à 1)", json_schema_extra={"example": 0.6})
 
     @field_validator('AMT_INCOME_TOTAL')
     @classmethod
