@@ -1,0 +1,28 @@
+=== RAPPORT INITIAL DE PROFILING ET LATENCE ===
+
+Nombre de variables du modèle : 1169
+Latence Moyenne : 2.70 ms
+Latence Médiane : 2.65 ms
+Latence P95     : 3.05 ms
+
+Détail des fonctions les plus lentes (cProfile) :
+         3081601 function calls (3033601 primitive calls) in 0.899 seconds
+
+   Ordered by: cumulative time
+   List reduced from 434 to 12 due to restriction <12>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+      200    0.002    0.000    0.899    0.004 /Users/macbookdefii/Desktop/Uni/P8/STR-OVER-P6-P8/benchmark_profiling.py:42(pipeline_inference_actuel)
+      200    0.001    0.000    0.734    0.004 /Users/macbookdefii/env/lib/python3.14/site-packages/lightgbm/sklearn.py:1761(predict_proba)
+      200    0.002    0.000    0.732    0.004 /Users/macbookdefii/env/lib/python3.14/site-packages/lightgbm/sklearn.py:1219(predict)
+      200    0.000    0.000    0.675    0.003 /Users/macbookdefii/env/lib/python3.14/site-packages/lightgbm/basic.py:4821(predict)
+      200    0.002    0.000    0.668    0.003 /Users/macbookdefii/env/lib/python3.14/site-packages/lightgbm/basic.py:1027(predict)
+      200    0.064    0.000    0.650    0.003 /Users/macbookdefii/env/lib/python3.14/site-packages/lightgbm/basic.py:752(_data_from_pandas)
+      200    0.000    0.000    0.373    0.002 /Users/macbookdefii/env/lib/python3.14/site-packages/lightgbm/basic.py:735(_pandas_to_numpy)
+      200    0.040    0.000    0.358    0.002 /Users/macbookdefii/env/lib/python3.14/site-packages/lightgbm/basic.py:723(_check_for_bad_pandas_dtypes)
+   703400    0.267    0.000    0.267    0.000 /Users/macbookdefii/env/lib/python3.14/site-packages/pandas/core/arrays/arrow/array.py:818(__iter__)
+   233800    0.073    0.000    0.224    0.000 /Users/macbookdefii/env/lib/python3.14/site-packages/lightgbm/basic.py:718(_is_allowed_numpy_dtype)
+   275400    0.045    0.000    0.135    0.000 {built-in method builtins.getattr}
+   233800    0.091    0.000    0.091    0.000 /Users/macbookdefii/env/lib/python3.14/site-packages/numpy/__init__.py:700(__getattr__)
+
+

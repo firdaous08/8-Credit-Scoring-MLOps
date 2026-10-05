@@ -132,6 +132,7 @@ def predict(client: ClientData):
     }
 
 
+# Route pour visualiser le rapport dans le navigateur
 @app.get("/drift")
 def get_drift_report():
     if not os.path.exists(DRIFT_REPORT_PATH):
@@ -140,3 +141,33 @@ def get_drift_report():
             detail="Le rapport de Data Drift n'a pas encore été généré sur le serveur."
         )
     return FileResponse(DRIFT_REPORT_PATH, media_type="text/html")
+
+
+# Route pour forcer le téléchargement du rapport de drift
+@app.get("/download/drift")
+def download_drift_report():
+    if not os.path.exists(DRIFT_REPORT_PATH):
+        raise HTTPException(
+            status_code=404,
+            detail="Le rapport de Data Drift n'a pas encore été généré."
+        )
+    return FileResponse(
+        path=DRIFT_REPORT_PATH,
+        filename="data_drift_report.html",
+        media_type="text/html"
+    )
+
+
+# Route pour télécharger les logs d'inférence de l'API
+@app.get("/download/logs")
+def download_logs():
+    if not os.path.exists(LOG_FILE):
+        raise HTTPException(
+            status_code=404,
+            detail="Le fichier de logs n'existe pas encore."
+        )
+    return FileResponse(
+        path=LOG_FILE,
+        filename="api_logs.jsonl",
+        media_type="application/x-ndjson"
+    )
