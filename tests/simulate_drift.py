@@ -21,3 +21,17 @@ for i in range(500):
         break
 
 print("Injection de 500 requêtes altérées terminée. Vérifiez votre fichier api_logs.jsonl.")
+
+
+@app.get("/reset", tags=["Demo"])
+def reset_demo_state():
+    """Réinitialise les logs et le rapport pour une nouvelle démonstration."""
+    # 1. Vider le fichier de logs (le mode 'w' écrase le contenu)
+    with open(LOG_FILE, "w", encoding="utf-8") as f:
+        pass 
+    
+    # 2. Supprimer l'ancien rapport HTML s'il existe
+    if os.path.exists(DRIFT_REPORT_PATH):
+        os.remove(DRIFT_REPORT_PATH)
+        
+    return {"status": "success", "message": "Environnement réinitialisé : logs vidés et ancien rapport supprimé."}

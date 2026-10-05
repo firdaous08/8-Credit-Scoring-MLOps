@@ -7,6 +7,8 @@ import onnxruntime as rt
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field
+import pandas as pd
+
 
 app = FastAPI(
     title="Credit Scoring API - High Performance ONNX",
@@ -171,3 +173,19 @@ def download_logs():
         filename="api_logs.jsonl",
         media_type="application/x-ndjson"
     )
+
+
+
+
+@app.get("/reset", tags=["Reset"])
+def reset_demo_state():
+    """Réinitialise les logs et le rapport pour une nouvelle démonstration."""
+    # 1. Vider le fichier de logs (le mode 'w' écrase le contenu)
+    with open(LOG_FILE, "w", encoding="utf-8") as f:
+        pass 
+    
+    # 2. Supprimer l'ancien rapport HTML s'il existe
+    if os.path.exists(DRIFT_REPORT_PATH):
+        os.remove(DRIFT_REPORT_PATH)
+        
+    return {"status": "success", "message": "Environnement réinitialisé : logs vidés et ancien rapport supprimé."}
